@@ -36,6 +36,9 @@ curl -sL whatthecommit.com | scrape -q '#content > p:first-child' -s outerhtml
 Scrape a news article and generate a pdf out of it using wkhtmltopdf:
 
 ```sh
- curl -sL https://www.nytimes.com/2024/02/09/opinion/eat-just-upside-foods-cultivated-meat.html | scrape -q 'article#story' | wkhtmltopdf - test.pdf
+curl -sL https://www.nytimes.com/2024/02/09/opinion/eat-just-upside-foods-cultivated-meat.html | scrape -q 'article#story' | wkhtmltopdf --encoding utf8 - test.pdf
+
+# another one:
+curl -sL https://www.presseportal.de/pm/43315/5710973 | scrape -q 'article.story p' | wkhtmltopdf --encoding utf8 - test.pdf
 ```
 
