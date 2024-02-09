@@ -2,10 +2,10 @@
 A small .NET cli to scrape web contents using AngleSharp
 
 ## Build
-The project is AOT-enabled to enable a fast startup time. Just build the project for your platform:
+The project is AOT-enabled to enable a fast startup time. Just build the project as release and let AOT do its thing:
 
 ```sh
-dotnet publish -c Release --self-contained -r win-x86
+dotnet publish -c Release
 ```
 
 I'd recommend to alias the cli to something meaningful while we don't have an integrated build in this repository.
