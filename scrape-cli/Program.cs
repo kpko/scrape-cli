@@ -1,7 +1,9 @@
 ﻿using System.CommandLine;
+
 using AngleSharp;
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
+
 using scrape_cli;
 
 var querySelectorOption = new Option<string?>(aliases: ["-q", "--query"],
@@ -24,13 +26,7 @@ rootCommand.AddOption(trimOption);
 
 rootCommand.SetHandler(async (querySelector, select, selectAttr, pretty, trim) =>
     {
-        var parser = new HtmlParser(new HtmlParserOptions()
-        {
-            IsEmbedded = true,
-            SkipPlaintext = false,
-            SkipRawText = false,
-            SkipComments = false
-        });
+        var parser = new HtmlParser(new HtmlParserOptions() { IsEmbedded = true, SkipPlaintext = false, SkipRawText = false, SkipComments = false });
 
         var doc = await parser.ParseDocumentAsync(Console.OpenStandardInput());
 
@@ -46,14 +42,14 @@ rootCommand.SetHandler(async (querySelector, select, selectAttr, pretty, trim) =
 
         foreach (var element in elements)
         {
-            var (output, isHtmlOutput) = (select, selectAttr) switch
+            var output = (select, selectAttr) switch
             {
-                (SelectionMode.OuterHtml, null) => (pretty ? element.Prettify() : element.OuterHtml, true),
-                (SelectionMode.InnerHtml, null) => (pretty ? string.Join(", ", element.Children.Select(c => c.Prettify())) : element.InnerHtml, true),
-                (SelectionMode.InnerText, null) => (element.TextContent, false),
-                (SelectionMode.Id, null)        => (element.Id, false),
-                (SelectionMode.Class, null)     => (element.ClassName, false),
-                (_, string attrName)            => (element.GetAttribute(attrName), false),
+                (SelectionMode.OuterHtml, null) => pretty ? element.Prettify() : element.OuterHtml,
+                (SelectionMode.InnerHtml, null) => pretty ? string.Join(", ", element.Children.Select(c => c.Prettify())) : element.InnerHtml,
+                (SelectionMode.InnerText, null) => element.TextContent,
+                (SelectionMode.Id, null)        => element.Id,
+                (SelectionMode.Class, null)     => element.ClassName,
+                (_, string attrName)            => element.GetAttribute(attrName),
                 _                               => throw new ArgumentOutOfRangeException()
             };
 

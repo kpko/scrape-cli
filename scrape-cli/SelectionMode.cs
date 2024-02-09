@@ -6,6 +6,5 @@ internal enum SelectionMode
     InnerHtml,
     InnerText,
     Id,
-    Class,
-    Attribute
+    Class
 }
